@@ -16,10 +16,9 @@ class EnsureTokenIsValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->input('token') === 'try') {
-            return redirect('home');
-        }
 
-        return $next($request);
+        if ($request->header("authorization") === "Bearer jwt") return $next($request);
+
+        return response("BAD REQUEST", 401);
     }
 }

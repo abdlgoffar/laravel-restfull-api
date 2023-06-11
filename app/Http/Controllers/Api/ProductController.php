@@ -46,9 +46,9 @@ class ProductController extends Controller
         $validator = Facades\Validator::make(
             $request->all(),
             [
-                'category_id' => 'required|Numeric',
-                'name' => 'required|string|min:3|max:50',
-                'price' => 'required|Numeric'
+                'category_id' => 'required | Numeric',
+                'name' => 'required | string | min:3 | max:50',
+                'price' => 'required | Numeric'
             ],
             [
                 "numeric" => "The :attribute field must be a number"
@@ -65,7 +65,7 @@ class ProductController extends Controller
         } else {
             $product = Product::create($request->all());
             return response()->json(
-                ["status" => true, "messages" => [], "payload" => $request->only(['name', 'price'])],
+                ["status" => true, "messages" => $validator->errors(), "payload" => $request->only(['name', 'price'])],
                 200,
                 ["Content-Type" => "application/json"]
             );
